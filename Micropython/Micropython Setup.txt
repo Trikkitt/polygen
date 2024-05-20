@@ -1,0 +1,26 @@
+This code has been written for Micropython v1.18 on 2022-01-17.  It has been compiled using the cross-compiler as the code is too large for the ESP8285 to run uncompiled.  If you need to target a different version of Micropython then you'll need to run the matched cross-compiler for the version you have used.  This version was used because when the code was written it was the latest version available.  Newer versions are available but due to time constraints it was not possible to update to the latest version of Micropython.  
+
+Using a blank Micropython installation on the ESP8285 the following commands should be run to prepare it.
+
+import network
+import utime
+from ubinascii import unhexlify
+wifi_SSID='<yourSSID>'
+wifi_PSK='<yourPSK>'
+sta_if = network.WLAN(network.STA_IF)
+sta_if.active(True)
+sta_if.connect(wifi_SSID,wifi_PSK)
+
+Then wait for the wifi to connect.  Then run the following commands:
+
+import upip
+upip.install('micropython-urequests')
+upip.install('micropython-umqtt.simple')
+
+
+Once completed you can now copy the .mpy files across along with the main.py that causes the module DiscCode to run automatically at bootup.
+
+For reference the ESP8285 need a specific commandline to flash the firmware:
+esptool.py.exe --port COM3 --baud 115200 write_flash --flash_size=detect -fm dout 0 ESP8266_GENERIC-FLASH_1M-20220117-v1.18.bin
+
+
