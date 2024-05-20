@@ -13,7 +13,7 @@ import hashlib
 import http.client, urllib
 import re
 
-from SrvConfig import MQTTBroker,MQTTPort,MQTTUser,MQTTPass,MQTTTimeout,SQLServer,SQLPort,SQLDatabase,SQLUser,SQLPass,PushOverToken,PushOverUser
+from SrvConfig import MQTTBroker,MQTTPort,MQTTUser,MQTTPass,MQTTTimeout,SQLServer,SQLPort,SQLDatabase,SQLUser,SQLPass,PushOverToken,PushOverUser,MapGPS1Lat,MapGPS1Long,MapGPS2Lat,MapGPS2Long,MapLocation1X,MapLocation1Y,MapLocation2X,MapLocation2Y,MapSizeX,MapSizeY
 
 DiscSilentFirstTrigger=20
 DiscSilentSecondTrigger=40
@@ -21,54 +21,35 @@ DiscSilentSecondTrigger=40
 TimeStampOffset=946684800 # Difference between Linux and ESP8266 epochs
 TimeMargin=60 # how much time +/- current time to permit messages to age
 
-BoostBonusDivider=10 # This is 10% by default.  Needs audio update on device to handle changes.
+BoostBonusDivider=10 # This is 10% by default. 
 
-def get_map_y(gps):
-  
-    #MapPerPixelY=0.00000278580964153566
-    #GPSBaseY=52.04400521295430000000
-    #MapSizeY=1634
+def get_map_y(lat,lat1,lat2,pixel1y,pixel2y,mapwidth):
+    LatDiff=lat2-lat1
+    YDiff=pixel2y - pixel1y
+    LatPerPixel= LatDiff / YDiff
+    BaseLat= lat1 - (pixel1y * LatPerPixel)
 
-    # EMF 2022
-    #MapPerPixelY=0.00000466881060294402
-    #GPSBaseY=52.04400521295430000000
-    #MapSizeY=1080
+    LatDiff=BaseLat - lat
+    Y=int(abs(LatDiff / LatPerPixel))
+    if Y > mapwidth:
+        Y=mapwidth
+        print("Outside of map calculated size")
+    return Y
 
-    # MCH 2022
-    MapPerPixelY=0.00000788662834861138
-    GPSBaseY=52.28525067275080000000
-    MapSizeY=600
 
-    MapDifY=GPSBaseY - gps
-    if MapDifY < 0:
-        return -1
-    PixelY=MapDifY / MapPerPixelY
-    if PixelY > MapSizeY:
-        return -1
-    return int(PixelY)
+def get_map_x(long,long1,long2,pixel1x,pixel2x,mapheight):
+    LongDiff=long2-long1
+    XDiff=pixel2x - pixel1x
+    LongPerPixel= LongDiff / XDiff
+    BaseLong= long1 - (pixel1x * LongPerPixel)
 
-def get_map_x(gps):
-    #MapPerPixelX=0.00000453895631067951
-    #GPSBaseX=-2.38069426237864000000
-    #MapSizeX=1810
+    LatDiff=BaseLong - long
+    X=int(abs(LatDiff / LongPerPixel))
+    if X > mapheight:
+        X=mapheight
+        print("Outside of map calculated size")
+    return X
 
-    # EMF 2022
-    #MapPerPixelX=0.00000760724845542789
-    #GPSBaseX=-2.38069426237864000000
-    #MapSizeX=858
-
-    # MCH 2022
-    MapPerPixelX=0.00414208862738245000
-    GPSBaseX=5.52164026205349000000
-    MapSizeX=880
-
-    MapDifX=gps-GPSBaseX
-    if MapDifX < 0:
-        return -1
-    PixelX=MapDifX / MapPerPixelX
-    if PixelX > MapSizeX:
-        return -1
-    return int(PixelX)
 
 
 def get_db_connectionpool():
@@ -668,8 +649,8 @@ def cmd_disc_location(client,msg,sourceDisc,payload,dbConn):
     if len(loc)==2:
         GPSy=float(loc[0])
         GPSx=float(loc[1])
-        MapY=get_map_y(GPSy)
-        MapX=get_map_x(GPSx)
+        MapY=get_map_y(GPSy,MapGPS1Lat,MapGPS2Lat,MapLocation1Y,MapLocation2Y,MapSizeY)
+        MapX=get_map_x(GPSx,MapGPS1Long,MapGPS2Long,MapLocation1X,MapLocation2X,MapSizeX)
     else:
         MapY=-1
         MapX=-1
