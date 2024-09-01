@@ -3,3 +3,5 @@ The sound files in the MP3 folder are the files stored on the MicroSD card inser
 
 The sound was generated via a few mechanisms.  The more recent ones are Azure Text to Speech.  While some other TTS services were used for the earlier voices.  The sound effects were generated via various tools and manipulated using Audacity.
 
+https://app.audiogen.co/
+https://speech.microsoft.com/portal
