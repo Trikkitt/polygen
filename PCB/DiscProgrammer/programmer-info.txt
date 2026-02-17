@@ -1,0 +1,3 @@
+The programmer is a very simple PCB designed to enable connection of either a PICKit3 programmer to the main PCB to programme the PIC microcontroller or a simple 3.3v USB to serial connection for the ESP825 module.
+
+The programmer uses pogo pins to connect to the main PCB.  Be aware that when I made this I used the battery connector to pickup the ground connection on the PCB.  A flooded battery connector can push up the pogo pin so far you don't make good contact on the remaining pins.  These really need a 3D printed case to help home it correctly.
