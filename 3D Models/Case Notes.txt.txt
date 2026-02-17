@@ -1,0 +1,18 @@
+The main body of the case can be printed in most materials of your choice.  I've found that Polycarbonate can be strong but will shatter if enough force is used. I don't recommend PLA because that can warp if it gets too warm.  If you're using this at a festival it can get a bit hot.
+
+The clips should be printed in PETG.  This gives them maximum flex without snapping, they cannot be printed in polycarbonate.  Extra bits needed for the cases:
+
+UK 2p coins (magnetic, not the older copper coins).  If you don't have access to these then you might want to consider some large washers and slightly redesigning the clips to hold them.  You could completely ignore the clips, but they really should be used to keep the upper and lower sections at the front pulled together evenly.  You could redesign to just use screws if you wanted to simplify the design.
+
+The V2 case uses M4 threaded inserts.  You'll need 4 per case.  One in the speaker holder/cover, one in the front main body at the top where the reinforcement screws are located, and one on the antenna mount.  You'll need matching M4 bolts 16mm.
+
+The case will print without supports on most 3D printers. Each of the main parts prints with the outward face being downwards.  For my printed I used a textured PEI bed to give it a nice finish.  I used a Bambu X1C for my prints using a multi-filament design.  The logos, URLs, etc are all loaded in separately and then merged within Bambu studio.  
+
+There is an extra tamper switch mount.  This is optional and I haven't used them on any of my units.  It is intended to go into the top left corner of the PCB to provide two detection locations on the PCB.  It isn't really needed but if you're wanting to ensure even if the case is smashed open the tamper detection is triggered, this is the way to go.
+
+If you want to see the finish printed case parts then please look in the assembly folder that will show you the various parts being assembled / pulled apart.
+
+You can look at the original design on this URL.  Feel free to copy and remix it to fix anything you want to change.
+
+https://www.tinkercad.com/things/fGMrmOF5N9D-polygen-case-2025-final
+
